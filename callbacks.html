@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>AJAX Callbacks Demo</title>
+</head>
+
+<body>
+
+    <script src="jquery-3.2.1.js"></script>
+    <script>
+        $("body").append("<h1> Loading... </h1>")
+
+        fetchPostsForSubreddit('javascript', function(results) {
+            console.log(results);
+
+            $("h1").remove();
+
+            $.each(results.data.children, function(key, value) {
+                $("body").append("<p>" + value.data.title + "</p>")
+            });
+
+        });
+
+        function fetchPostsForSubreddit(subreddit, callbackFunction) {
+            $.getJSON('https://reddit.com/r/' + subreddit + '.json', function(results) {
+                callbackFunction(results);
+            });
+        }
+    </script>
+</body>
+
+</html>
